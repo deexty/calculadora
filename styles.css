@@ -27,16 +27,24 @@ body{
     border-bottom: 2px solid #2F2F2F;
     box-sizing: border-box;
     margin-bottom: .75rem;
-    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 .displayContainer > p{
+    width: 100%;
+    overflow-x: scroll;
     text-align: right;
 }
 
 .displayContainer > span{
     font-size: 14px;
     color: #888888;
+    width: 100%;
+    overflow-x: scroll;
+    text-align: end;
 }
 
 .botoesContainer{
@@ -86,4 +94,28 @@ body{
     font-size: 14px;
     text-align: end;
 }
+
+/* Funciona no Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: blue orange;
+  }
+  
+  /* Funciona no Chrome, Edge e Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+    height: 3.5px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: #888888;
+    border-radius: 20px;
+    border: 3px solid transparent;
+  }
+  
+  
 

@@ -63,6 +63,11 @@ botoes.forEach(botaoAtual => {
                 resultado.innerHTML = `0`
                 atualizaDisplay("0")
                 break;
+            case "%":
+                input = (Number(input) / 100).toString();
+                calculo = input;
+                atualizaDisplay(input)
+                break;
             case "backspace":
                 if(input.length > 1){
                     input = input.slice(0, -1)
