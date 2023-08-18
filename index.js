@@ -1,86 +1,106 @@
-let botoes = document.querySelectorAll(".botao");
-let historico = document.querySelector(".historico")
-let resultado = document.querySelector("#resultado")
-let display = document.querySelector("#display")
+const botoes = document.querySelectorAll(".botao")
+const display = document.getElementById("display")
 
-let input = "";
-let calculo = ""
-
-/* funcoes */
-
-function filtraCalculo(calculo) {
-    // Remover zeros à esquerda dos números inteiros
-    calculo = calculo.replace(/(^|[^0-9.])0+([0-9])/g, '$1$2');
-    // Remover operadores aritméticos juntos, mantendo o primeiro
-    calculo = calculo.replace(/([\+\-\*\/])([\+\-\*\/]+)/g, '$1');
-    // Remover pontos juntos, mantendo o primeiro
-    calculo = calculo.replace(/(\.)(\.)+/g, '$1');
-    // Remover pontos ao lado de operadores aritméticos
-    calculo = calculo.replace(/([\+\-\*\/])\.|\.(?=[\+\-\*\/])/g, '$1');
-
-    
-    return calculo;
-}
-
-function adicionaCaracter(caracter){
-    input = calculo
-    if (!input) {
-        input = caracter;
-    }else{
-        input = input + caracter;
-    }
-    let inputFiltrado = filtraCalculo(input)
-    console.log(inputFiltrado);
-    atualizaDisplay(inputFiltrado)
-    calculo = inputFiltrado;
-}
-
-function atualizaDisplay(valor) {
-    display.innerHTML = `<p>${valor}</p>`
-}
-
-function mostraResultado(calculo) {
-    if(calculo.length > 0){
-        atualizaDisplay(eval(calculo));
-        console.log(resultado
-            );
-        resultado.innerHTML = `${calculo}`
-    }
-}
+let numeroAtual = null
+let numeroAntigo = null
+let operadorAtual = null
+let resultado = null
 
 botoes.forEach(botaoAtual => {
-    botaoAtual.addEventListener("click", (e) =>{
-        console.log(e.target.value);
-        switch(e.target.value){
-            case "=":
-                mostraResultado(input)
-                input = eval(calculo).toString();
-                calculo = eval(calculo).toString();
-                break;
-            case "c":
-                input = "0";
-                calculo = "0";
-                resultado.innerHTML = `0`
-                atualizaDisplay("0")
-                break;
-            case "%":
-                input = (Number(input) / 100).toString();
-                calculo = input;
-                atualizaDisplay(input)
-                break;
-            case "backspace":
-                if(input.length > 1){
-                    input = input.slice(0, -1)
-                    calculo = calculo.slice(0, -1)
-                    atualizaDisplay(input)
+    botaoAtual.addEventListener("click", verificaValores)
+})
+
+function reset() {
+    numeroAtual = null
+    numeroAntigo = null
+    operadorAtual = null
+    resultado = null
+    alteraDisplay("0");
+}
+
+function verificaValores(e) {
+    let valorAtual = e.target.value;
+    if(valorAtual >= "0" && valorAtual <= "9"){
+        adicionaNumero(valorAtual)
+    }
+
+    switch(valorAtual){
+        case "-":
+        case "/":
+        case "*":
+        case "+":
+            if(!numeroAtual || !numeroAntigo){
+                operadorAtual = valorAtual;
+                if(!numeroAntigo){
+                    numeroAntigo = numeroAtual
+                }
+                numeroAtual = null
+                alteraDisplay("0")
+            }
+            break;
+        case ".":
+            if(!numeroAtual.includes(".")){
+                numeroAtual = numeroAtual + valorAtual;
+                alteraDisplay(numeroAtual)
+            }
+            break
+        case "c":
+            numeroAtual = null
+            alteraDisplay("0")
+            break
+        case "ce":
+            reset()
+            break
+        case "%":
+            numeroAtual = numeroAtual / 100
+            alteraDisplay(numeroAtual)
+            break
+        case "=":
+            executaOperacao()
+            break
+    }
+}
+
+function adicionaNumero(numero) {
+    if(!numeroAtual){
+        numeroAtual = numero;
+        alteraDisplay(numeroAtual)
+    }else{
+        numeroAtual += numero
+        alteraDisplay(numeroAtual)
+    }
+}
+
+function executaOperacao() {
+    if(numeroAntigo && numeroAtual && operadorAtual){
+        switch(operadorAtual){
+            case "-":
+            case "/":
+            case "*":
+            case "+":
+                if(!resultado){
+                    let preCalculo = eval(`${numeroAntigo}${operadorAtual}${numeroAtual}`)
+                    resultado = preCalculo;
+                    numeroAntigo = numeroAtual;
+                    numeroAtual = ""
+                    alteraDisplay(resultado)
                 }else{
-                    input = "0"
-                    calculo = "0"
-                    atualizaDisplay("0")
+                    let preCalculo = eval(`${resultado}${operadorAtual}${numeroAtual}`)
+                    resultado = preCalculo;
+                    numeroAntigo = numeroAtual;
+                    numeroAtual = ""
+                    alteraDisplay(resultado)
                 }
                 break;
-            default:
-                adicionaCaracter(e.target.value)
         }
-    })
-})
+    }else if(resultado && !numeroAtual){
+        let preCalculo = eval(`${resultado}${operadorAtual}${numeroAntigo}`)
+        resultado = preCalculo;
+        numeroAtual = ""
+        alteraDisplay(resultado)
+    }
+}
+
+function alteraDisplay(valor) {
+    display.textContent = valor;
+}

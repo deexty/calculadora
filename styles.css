@@ -97,25 +97,24 @@ body{
 
 /* Funciona no Firefox */
 * {
+/*Miscellaneous*/
     scrollbar-width: thin;
     scrollbar-color: blue orange;
-  }
-  
-  /* Funciona no Chrome, Edge e Safari */
-  *::-webkit-scrollbar {
+}
+
+/* Funciona no Chrome, Edge e Safari */
+*::-webkit-scrollbar {
     width: 12px;
     height: 3.5px;
-  }
-  
-  *::-webkit-scrollbar-track {
+}
+
+*::-webkit-scrollbar-track {
     background: transparent;
-  }
-  
-  *::-webkit-scrollbar-thumb {
+}
+
+*::-webkit-scrollbar-thumb {
     background-color: #888888;
     border-radius: 20px;
     border: 3px solid transparent;
-  }
-  
-  
+}
 
