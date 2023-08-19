@@ -69,7 +69,7 @@ function verificaValores(e) {
             reset()
             break
         case "%":
-            numeroAtual = numeroAtual / 100
+            numeroAtual = (numeroAtual / 100).toFixed(2)
             alteraDisplay(numeroAtual)
             break
         case "=":
@@ -82,6 +82,7 @@ function verificaValores(e) {
 
         /* teclado */
         case "Enter":
+            window.focus()
             executaOperacao()
             break
         case " ":
@@ -125,7 +126,7 @@ function executaOperacao() {
             case "*":
             case "+":
                 if(!resultado){
-                    let preCalculo = eval(`${numeroAntigo}${operadorAtual}${numeroAtual}`)
+                    let preCalculo = eval(`${numeroAntigo}${operadorAtual}${numeroAtual}`).toFixed(2)
                     resultado = preCalculo;
                     
                     historicoAtual.push(numeroAntigo.toString(),operadorAtual + numeroAtual.toString())
@@ -138,19 +139,19 @@ function executaOperacao() {
                 }else{
                     let preCalculo = eval(`${resultado}${operadorAtual}${numeroAtual}`)
 
-                    historicoAtual.push(resultado.toString(),operadorAtual+ numeroAtual.toString())
+                    historicoAtual.push(resultado.toString(),operadorAtual+ numeroAtual.toString()).toFixed(2)
                     console.log(historicoAtual);
                     atualizaHistorico()
 
-                    resultado = preCalculo;
-                    numeroAntigo = numeroAtual;
+                    resultado = preCalculo.toFixed(2);
+                    numeroAntigo = numeroAtual.toFixed(2);
                     numeroAtual = ""
                     alteraDisplay(resultado)
                 }
                 break;
         }
     }else if(resultado && !numeroAtual){
-        let preCalculo = eval(`${resultado}${operadorAtual}${numeroAntigo}`)
+        let preCalculo = eval(`${resultado}${operadorAtual}${numeroAntigo}`).toFixed(2)
         historicoAtual.push(resultado.toString(),operadorAtual+ numeroAntigo.toString())
         console.log(historicoAtual);
         atualizaHistorico()
