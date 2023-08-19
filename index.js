@@ -87,6 +87,12 @@ function verificaValores(e) {
         case " ":
             reset()
             break
+        case ",":
+            if(!numeroAtual.includes(".")){
+                numeroAtual = numeroAtual + ".";
+                alteraDisplay(numeroAtual)
+            }
+            break
         case "Backspace":
             if(numeroAtual && numeroAtual.length > 1){
                 let novaString = numeroAtual.slice(0, -1);
