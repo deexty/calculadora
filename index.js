@@ -15,7 +15,13 @@ let historicoAtual = historicoLocal ? historicoLocal : [];
 atualizaHistorico()
 
 botoes.forEach(botaoAtual => {
-    botaoAtual.addEventListener("click", verificaValores)
+    botaoAtual.addEventListener("click", (e) => verificaValores(e.target.value))
+})
+
+
+document.addEventListener("keydown", (e) => {
+    console.log(e.key);
+    verificaValores(e.key)
 })
 
 function reset() {
@@ -30,7 +36,7 @@ function reset() {
 }
 
 function verificaValores(e) {
-    let valorAtual = e.target.value;
+    let valorAtual = e;
     if(valorAtual >= "0" && valorAtual <= "9"){
         adicionaNumero(valorAtual)
     }
@@ -73,6 +79,25 @@ function verificaValores(e) {
             historicoAtual.push("=" + resultado.toString())
             atualizaHistorico()
             break
+
+        /* teclado */
+        case "Enter":
+            executaOperacao()
+            break
+        case " ":
+            reset()
+            break
+        case "Backspace":
+            if(numeroAtual && numeroAtual.length > 1){
+                let novaString = numeroAtual.slice(0, -1);
+                numeroAtual = novaString
+                alteraDisplay(novaString)
+            }else{
+                numeroAtual = null
+                alteraDisplay("0")
+            }
+            break
+
     }
 }
 
@@ -96,12 +121,12 @@ function executaOperacao() {
                 if(!resultado){
                     let preCalculo = eval(`${numeroAntigo}${operadorAtual}${numeroAtual}`)
                     resultado = preCalculo;
-                    numeroAntigo = numeroAtual;
-
+                    
                     historicoAtual.push(numeroAntigo.toString(),operadorAtual + numeroAtual.toString())
                     atualizaHistorico()
                     console.log(historicoAtual);
-
+                    
+                    numeroAntigo = numeroAtual;
                     numeroAtual = ""
                     alteraDisplay(resultado)
                 }else{
