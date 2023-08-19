@@ -206,3 +206,9 @@ body{
 *::-webkit-scrollbar-thumb {
     background-color: #34613d; 
 }
+
+@media screen and (max-width: 768px) {
+    .historyContainer{
+        display: none;
+    }
+}
