@@ -95,6 +95,63 @@ body{
     text-align: end;
 }
 
+.botaoCalculo{
+    background-color:#388046
+}
+
+.botaoCalculo:hover{
+    background-color:#34613d
+}
+
+.historyContainer{
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1.5rem;
+    flex-direction: column;
+    position: relative;
+}
+
+.historyContainer > button{
+    display: flex;
+    align-items: center;
+    margin-top: .5rem;
+    position: absolute;
+    bottom: -2.5rem;
+    padding: 0 .5rem;
+    background-color: transparent;
+    color: #FFF;
+    border: 0;
+    outline: 0;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+}
+
+.historyContainer > button:hover{
+    scale: 1.1;
+}
+
+.historyContainer > button > img{
+    width: 2rem;
+    margin-left: .75rem;
+    fill: #FFF;
+}
+
+.historyContainer > ul{
+    width: 100%;
+    border-top:1px solid #2F2F2F;
+    border-bottom:1px solid #2F2F2F;
+    height: 373px;
+    list-style: none;
+    padding: .5rem;
+    overflow-y: scroll;
+}
+
+.historyContainer > ul > li{
+    text-align: right;
+}
+
 /* Funciona no Firefox */
 * {
 /*Miscellaneous*/
@@ -118,3 +175,29 @@ body{
     border: 3px solid transparent;
 }
 
+@media print {
+    .calcContainer{
+        display: none;
+    }
+
+    .historyContainer > button{
+        display: none;
+    }
+
+    .historyContainer > ul{
+        border: none;
+        color: #000;
+    }
+}
+
+*::-webkit-scrollbar {
+    width: 3px; /* largura da barra de rolagem inteira */
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent; /* cor da área de rastreamento */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #34613d; 
+}

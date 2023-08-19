@@ -1,10 +1,18 @@
 const botoes = document.querySelectorAll(".botao")
 const display = document.getElementById("display")
+const botaoImpressao = document.getElementById("botaoImpressao")
+
+botaoImpressao.addEventListener("click", () => window.print())
 
 let numeroAtual = null
 let numeroAntigo = null
 let operadorAtual = null
 let resultado = null
+
+let historicoLocal = JSON.parse(localStorage.getItem("historicoLocal"))
+let historicoAtual = historicoLocal ? historicoLocal : [];
+
+atualizaHistorico()
 
 botoes.forEach(botaoAtual => {
     botaoAtual.addEventListener("click", verificaValores)
@@ -16,6 +24,9 @@ function reset() {
     operadorAtual = null
     resultado = null
     alteraDisplay("0");
+    historicoAtual = []
+    localStorage.clear()
+    atualizaHistorico()
 }
 
 function verificaValores(e) {
@@ -58,6 +69,10 @@ function verificaValores(e) {
         case "=":
             executaOperacao()
             break
+        case "#=":
+            historicoAtual.push("=" + resultado.toString())
+            atualizaHistorico()
+            break
     }
 }
 
@@ -82,10 +97,20 @@ function executaOperacao() {
                     let preCalculo = eval(`${numeroAntigo}${operadorAtual}${numeroAtual}`)
                     resultado = preCalculo;
                     numeroAntigo = numeroAtual;
+
+                    historicoAtual.push(numeroAntigo.toString(),operadorAtual + numeroAtual.toString())
+                    atualizaHistorico()
+                    console.log(historicoAtual);
+
                     numeroAtual = ""
                     alteraDisplay(resultado)
                 }else{
                     let preCalculo = eval(`${resultado}${operadorAtual}${numeroAtual}`)
+
+                    historicoAtual.push(resultado.toString(),operadorAtual+ numeroAtual.toString())
+                    console.log(historicoAtual);
+                    atualizaHistorico()
+
                     resultado = preCalculo;
                     numeroAntigo = numeroAtual;
                     numeroAtual = ""
@@ -95,6 +120,9 @@ function executaOperacao() {
         }
     }else if(resultado && !numeroAtual){
         let preCalculo = eval(`${resultado}${operadorAtual}${numeroAntigo}`)
+        historicoAtual.push(resultado.toString(),operadorAtual+ numeroAntigo.toString())
+        console.log(historicoAtual);
+        atualizaHistorico()
         resultado = preCalculo;
         numeroAtual = ""
         alteraDisplay(resultado)
@@ -103,4 +131,18 @@ function executaOperacao() {
 
 function alteraDisplay(valor) {
     display.textContent = valor;
+}
+
+function atualizaHistorico() {
+    let historyContainer = document.querySelector(".historyContainer");
+    let historicoListaElemento = historyContainer.querySelector("ul");
+    
+    historicoListaElemento.innerHTML = ""
+    historicoAtual.forEach(itemHistorico => {
+        historicoListaElemento.innerHTML += `
+            <li>${itemHistorico}</li>
+        `
+    });
+    
+    localStorage.setItem("historicoLocal", JSON.stringify(historicoAtual))
 }
