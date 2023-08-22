@@ -97,7 +97,6 @@ body{
 
 .botaoCalculo{
     background-color:#388046;
-    grid-column: span 2;
 }
 
 .botaoCalculo:hover{
@@ -108,10 +107,13 @@ body{
     width: 150px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     margin-left: 2.5rem;
     flex-direction: column;
     position: relative;
+    height: 373px;
+    border-bottom:1px solid #2F2F2F;
+
 }
 
 .historyContainer > button{
@@ -133,17 +135,20 @@ body{
     scale: 1.1;
 }
 
-.historyContainer > button > img{
-    width: 2rem;
-    margin-left: .75rem;
-    fill: #FFF;
+.historyContainer > button > div{
+    margin-left: .5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-image: url("print-svgrepo-com.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .historyContainer > ul{
     width: 100%;
     border-top:1px solid #2F2F2F;
-    border-bottom:1px solid #2F2F2F;
-    height: 373px;
+    height: 75%;
     list-style: none;
     padding: .5rem;
     overflow-y: scroll;
@@ -151,6 +156,13 @@ body{
 
 .historyContainer > ul > li{
     text-align: right;
+}
+
+.botaoRepetir{
+    background-image: url("loop-svgrepo-com.svg");
+    background-size: 1.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Funciona no Firefox */
@@ -184,6 +196,7 @@ body{
     .historyContainer{
         margin: 0;
         padding: 0;
+        border-bottom: none;
     }
 
     .historyContainer > button{
@@ -193,6 +206,7 @@ body{
     .historyContainer > ul{
         border: none;
         color: #000;
+        overflow: visible;
     }
 }
 

@@ -91,6 +91,19 @@ function verificaValores(e) {
             historicoAtual.push("=" + resultado.toString())
             atualizaHistorico()
             break
+        case "#=":
+            if(resultado && !numeroAtual){
+                let preCalculo = eval(`${resultado}${operadorAtual}${numeroAntigo}`).toFixed(2)
+                historicoAtual.push(operadorAtual+ numeroAntigo.toString())
+                console.log(historicoAtual);
+                atualizaHistorico()
+                resultado = preCalculo;
+                numeroAtual = ""
+                alteraDisplay(resultado)}
+                else{
+                    executaOperacao()
+                }
+            break
         /* teclado */
         case "Enter":
             window.focus()
@@ -160,14 +173,6 @@ function executaOperacao() {
                 }
                 break;
         }
-    }else if(resultado && !numeroAtual){
-        let preCalculo = eval(`${resultado}${operadorAtual}${numeroAntigo}`).toFixed(2)
-        historicoAtual.push(operadorAtual+ numeroAntigo.toString())
-        console.log(historicoAtual);
-        atualizaHistorico()
-        resultado = preCalculo;
-        numeroAtual = ""
-        alteraDisplay(resultado)
     }
 }
 
@@ -178,6 +183,7 @@ function alteraDisplay(valor) {
 function atualizaHistorico() {
     let historyContainer = document.querySelector(".historyContainer");
     let historicoListaElemento = historyContainer.querySelector("ul");
+
     
     historicoListaElemento.innerHTML = ""
     historicoAtual.forEach(itemHistorico => {
@@ -185,7 +191,8 @@ function atualizaHistorico() {
         <li>${itemHistorico}</li>
         `
     });
+
+    historicoListaElemento.scrollTop = historicoListaElemento.scrollHeight;
     
-    historicoListaElemento.scrollTop = historicoListaElemento.scrollHeight + 10;
     localStorage.setItem("historicoLocal", JSON.stringify(historicoAtual))
 }
