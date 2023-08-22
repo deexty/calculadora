@@ -15,14 +15,19 @@ let historicoAtual = historicoLocal ? historicoLocal : [];
 atualizaHistorico()
 
 botoes.forEach(botaoAtual => {
-    botaoAtual.addEventListener("click", (e) => verificaValores(e.target.value))
+    botaoAtual.addEventListener("click", (e) => {
+        verificaValores(e.target.value)
+    })
 })
 
-
-document.addEventListener("keydown", (e) => {
-    console.log(e.key);
-    verificaValores(e.key)
-})
+function handleKeyDown(event) {
+    if (event.key) {
+      verificaValores(event.key)
+    }
+  }
+  
+  // Adiciona um listener de evento de teclado ao documento
+  document.addEventListener("keydown", handleKeyDown);
 
 function reset() {
     numeroAtual = null
@@ -33,6 +38,7 @@ function reset() {
     historicoAtual = []
     localStorage.clear()
     atualizaHistorico()
+    botoes.forEach(botaoAtual => botaoAtual.blur())
 }
 
 function verificaValores(e) {
@@ -43,6 +49,11 @@ function verificaValores(e) {
 
     switch(valorAtual){
         case "-":
+            if(!numeroAtual){
+                numeroAtual = "-"
+                alteraDisplay("-")
+                break
+            }
         case "/":
         case "*":
         case "+":
@@ -53,6 +64,9 @@ function verificaValores(e) {
                 }
                 numeroAtual = null
                 alteraDisplay("0")
+            }else{
+                executaOperacao()
+                console.log(resultado);
             }
             break;
         case ".":
@@ -74,12 +88,9 @@ function verificaValores(e) {
             break
         case "=":
             executaOperacao()
-            break
-        case "#=":
             historicoAtual.push("=" + resultado.toString())
             atualizaHistorico()
             break
-
         /* teclado */
         case "Enter":
             window.focus()
@@ -138,21 +149,20 @@ function executaOperacao() {
                     alteraDisplay(resultado)
                 }else{
                     let preCalculo = eval(`${resultado}${operadorAtual}${numeroAtual}`)
-
-                    historicoAtual.push(resultado.toString(),operadorAtual+ numeroAtual.toString()).toFixed(2)
-                    console.log(historicoAtual);
-                    atualizaHistorico()
-
+                    
                     resultado = preCalculo.toFixed(2);
-                    numeroAntigo = numeroAtual.toFixed(2);
-                    numeroAtual = ""
+                    
+                    historicoAtual.push(operadorAtual+ numeroAtual.toString())
+                    atualizaHistorico()
+                    numeroAntigo = numeroAtual
                     alteraDisplay(resultado)
+                    numeroAtual = ""
                 }
                 break;
         }
     }else if(resultado && !numeroAtual){
         let preCalculo = eval(`${resultado}${operadorAtual}${numeroAntigo}`).toFixed(2)
-        historicoAtual.push(resultado.toString(),operadorAtual+ numeroAntigo.toString())
+        historicoAtual.push(operadorAtual+ numeroAntigo.toString())
         console.log(historicoAtual);
         atualizaHistorico()
         resultado = preCalculo;
@@ -172,9 +182,10 @@ function atualizaHistorico() {
     historicoListaElemento.innerHTML = ""
     historicoAtual.forEach(itemHistorico => {
         historicoListaElemento.innerHTML += `
-            <li>${itemHistorico}</li>
+        <li>${itemHistorico}</li>
         `
     });
     
+    historicoListaElemento.scrollTop = historicoListaElemento.scrollHeight + 10;
     localStorage.setItem("historicoLocal", JSON.stringify(historicoAtual))
 }

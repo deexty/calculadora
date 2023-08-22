@@ -96,7 +96,8 @@ body{
 }
 
 .botaoCalculo{
-    background-color:#388046
+    background-color:#388046;
+    grid-column: span 2;
 }
 
 .botaoCalculo:hover{
