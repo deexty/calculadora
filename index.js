@@ -114,6 +114,8 @@ function verificaValores(e) {
             executaOperacao()
             historicoAtual.push("=" + resultado.toString())
             atualizaHistorico()
+            alteraDisplay("0");
+            numeroAtual = null
             break
         case " ":
             reset()
