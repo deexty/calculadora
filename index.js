@@ -65,9 +65,11 @@ function verificaValores(e) {
                 numeroAtual = null
                 alteraDisplay("0")
             }else{
-                operadorAtual = valorAtual;
-                executaOperacao()
-                console.log(resultado);
+                if(operadorAtual){
+                    operadorAtual = valorAtual;
+                    executaOperacao()
+                    console.log(resultado);
+                }
             }
             break;
         case ".":
