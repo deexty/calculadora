@@ -65,7 +65,7 @@ function verificaValores(e) {
                 operadorAtual = valorAtual;
                 alteraDisplay("0")
             }else{
-                operadorAtual = vaor
+                operadorAtual = valorAtual;
                 executaOperacao()
                 console.log(resultado);
             }
