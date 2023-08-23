@@ -97,6 +97,9 @@ function verificaValores(e) {
             atualizaHistorico()
             break
         case "Enter":
+            botoes.forEach(botao => {
+                botao.blur()
+            })
             executaOperacao()
             historicoAtual.push("=" + resultado.toString())
             atualizaHistorico()
