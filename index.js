@@ -49,13 +49,13 @@ function verificaValores(e) {
 
     switch(valorAtual){
         case "-":
-            /*
+            
             if(!numeroAtual){
                 numeroAtual = "-"
                 alteraDisplay("-")
                 break
             }
-            */
+            
         case "/":
         case "*":
         case "+":
