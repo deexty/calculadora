@@ -91,7 +91,7 @@ function verificaValores(e) {
             numeroAtual = (numeroAtual / 100).toFixed(2)
             alteraDisplay(numeroAtual)
             break
-        case "=":
+        case "=" || "Enter":
             executaOperacao()
             historicoAtual.push("=" + resultado.toString())
             atualizaHistorico()
@@ -110,12 +110,6 @@ function verificaValores(e) {
                 }
             break
         /* teclado */
-        case "Enter":
-            executaOperacao()
-            historicoAtual.push("=" + resultado.toString())
-            atualizaHistorico()
-            alteraDisplay(`${rola}`)
-            break
         case " ":
             reset()
             break
