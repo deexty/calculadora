@@ -112,10 +112,9 @@ function verificaValores(e) {
         /* teclado */
         case "Enter":
             executaOperacao()
-            alteraDisplay(`${resultado}`)
             historicoAtual.push("=" + resultado.toString())
             atualizaHistorico()
-            console.log(resultado)
+            alteraDisplay(`${rola}`)
             break
         case " ":
             reset()
