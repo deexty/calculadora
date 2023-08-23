@@ -111,8 +111,9 @@ function verificaValores(e) {
             break
         /* teclado */
         case "Enter":
-            window.focus()
             executaOperacao()
+            historicoAtual.push("=" + resultado.toString())
+            atualizaHistorico()
             break
         case " ":
             reset()
