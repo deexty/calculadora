@@ -62,10 +62,9 @@ function verificaValores(e) {
                 if(!numeroAntigo){
                     numeroAntigo = numeroAtual
                 }
-                operadorAtual = valorAtual;
+                numeroAtual = null
                 alteraDisplay("0")
             }else{
-                operadorAtual = valorAtual;
                 executaOperacao()
                 console.log(resultado);
             }
