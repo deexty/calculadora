@@ -68,8 +68,8 @@ function verificaValores(e) {
                 alteraDisplay("0")
             }else{
                 if(operadorAtual){
-                    operadorAtual = valorAtual;
                     executaOperacao()
+                    operadorAtual = valorAtual;
                     console.log(resultado);
                 }
             }
