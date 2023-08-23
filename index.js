@@ -91,7 +91,12 @@ function verificaValores(e) {
             numeroAtual = (numeroAtual / 100).toFixed(2)
             alteraDisplay(numeroAtual)
             break
-        case "=" || "Enter":
+        case "=":
+            executaOperacao()
+            historicoAtual.push("=" + resultado.toString())
+            atualizaHistorico()
+            break
+        case "Enter":
             executaOperacao()
             historicoAtual.push("=" + resultado.toString())
             atualizaHistorico()
